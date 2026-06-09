@@ -1,0 +1,6 @@
+{
+  "name": "Retail SG UX Specification System",
+  "description": "An interactive enterprise wireframe and UX annotation workspace representing the full customer checkout, product detail, and refund flows for RETAIL_SG.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

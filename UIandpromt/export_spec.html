@@ -1,0 +1,2013 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RETAIL_SG UX Wireframe Specification & System Audit</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-canvas: #f9fafb;
+            --bg-panel: #ffffff;
+            --border-primary: #e5e7eb;
+            --border-dashed: #cbd5e1;
+            --text-heading: #111827;
+            --text-body: #374151;
+            --text-muted: #6b7280;
+            --accent-carbon: #111827;
+            --accent-glow: #3b82f6;
+            --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            color: var(--text-body);
+            background-color: var(--bg-canvas);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* 1. STICKY TOP SPECIFICATION BAR */
+        .spec-bar {
+            position: sticky;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background-color: currentColor;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: justify-between;
+            padding: 0 24px;
+            border-bottom: 2px solid #000000;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            background-color: #111827;
+        }
+
+        .spec-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .spec-logo {
+            font-family: var(--font-mono);
+            font-weight: 800;
+            font-size: 14px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .spec-tag {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            padding: 2px 6px;
+            background-color: #374151;
+            border: 1px solid #4b5563;
+            border-radius: 4px;
+            color: #d1d5db;
+        }
+
+        .spec-controls {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .spec-dropdown {
+            background-color: #1f2937;
+            color: #ffffff;
+            border: 1px solid #374151;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-family: var(--font-sans);
+            font-size: 12px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .viewport-selector {
+            display: flex;
+            background-color: #1f2937;
+            border: 1px solid #374151;
+            border-radius: 4px;
+            padding: 2px;
+        }
+
+        .viewport-btn {
+            background: none;
+            border: none;
+            color: #9ca3af;
+            padding: 4px 10px;
+            border-radius: 2px;
+            cursor: pointer;
+            font-family: var(--font-mono);
+            font-size: 10px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.15s ease;
+        }
+
+        .viewport-btn.active {
+            background-color: #374151;
+            color: #ffffff;
+        }
+
+        /* LAYOUT FRAMEWORK */
+        .workspace {
+            display: grid;
+            grid-template-columns: 280px 1fr 340px;
+            height: calc(100vh - 60px);
+            overflow: hidden;
+        }
+
+        @media (max-width: 1024px) {
+            .workspace {
+                grid-template-columns: 1fr;
+                height: auto;
+                overflow: initial;
+            }
+        }
+
+        /* LEFT SIDEBAR (TOC + Screen Specs) */
+        .sidebar {
+            background-color: #ffffff;
+            border-right: 1px solid var(--border-primary);
+            overflow-y: auto;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        /* MAIN CANVA AREA */
+        .canvas-area {
+            overflow: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 32px;
+            position: relative;
+        }
+
+        /* RIGHT PANEL: ANNOTATIONS */
+        .annotations-panel {
+            background-color: #ffffff;
+            border-left: 1px solid var(--border-primary);
+            overflow-y: auto;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* SPECIFICATION SECTIONS */
+        .spec-section-title {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-heading);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            border-b: 1px solid var(--text-heading);
+            padding-bottom: 6px;
+            margin-bottom: 12px;
+        }
+
+        .screen-meta-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            background-color: #f8fafc;
+            border: 1px solid var(--border-primary);
+            padding: 12px;
+            border-radius: 6px;
+        }
+
+        .screen-meta-row {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .screen-meta-label {
+            color: var(--text-muted);
+        }
+
+        .screen-meta-val {
+            font-weight: bold;
+            color: var(--text-heading);
+        }
+
+        /* SECTION TABLE OF CONTENTS */
+        .section-toc {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .toc-item {
+            display: flex;
+            align-items: center;
+            padding: 6px 10px;
+            background-color: #f9fafb;
+            border: 1px solid var(--border-primary);
+            border-radius: 4px;
+            font-size: 11px;
+            font-family: var(--font-mono);
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .toc-item:hover {
+            border-color: var(--text-heading);
+            background-color: #fff;
+        }
+
+        .toc-badge {
+            background-color: var(--text-heading);
+            color: #fff;
+            padding: 1px 4px;
+            border-radius: 2px;
+            font-size: 9px;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        /* ANNOTATION CALLOUT CARDS */
+        .callout-card {
+            border: 1px solid var(--border-primary);
+            border-radius: 6px;
+            padding: 14px;
+            background-color: #ffffff;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .callout-card.active {
+            border-color: var(--accent-carbon);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            background-color: #fafafa;
+        }
+
+        .callout-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .pin-badge {
+            width: 20px;
+            height: 20px;
+            background-color: var(--accent-carbon);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-family: var(--font-mono);
+            font-size: 10px;
+            font-weight: bold;
+        }
+
+        .callout-title {
+            font-size: 12px;
+            font-weight: bold;
+            color: var(--text-heading);
+        }
+
+        .callout-type {
+            font-family: var(--font-mono);
+            font-size: 8px;
+            padding: 1px 4px;
+            background-color: #f1f5f9;
+            border: 0.5px solid #cbd5e1;
+            border-radius: 2px;
+            color: #475569;
+            text-transform: uppercase;
+        }
+
+        .callout-desc {
+            font-size: 11px;
+            color: var(--text-body);
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        .callout-detail-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 8px;
+            font-size: 10px;
+            border-t: 1.5px dashed var(--border-primary);
+            padding-top: 8px;
+        }
+
+        .callout-detail-block {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .callout-detail-label {
+            font-family: var(--font-mono);
+            font-weight: bold;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-size: 8.5px;
+            letter-spacing: 0.5px;
+        }
+
+        .callout-detail-val {
+            color: var(--text-body);
+        }
+
+        /* MOCKUP VIEWER WRAPPERS */
+        .mockup-container {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background-color: #ffffff;
+            border: 1px solid var(--border-primary);
+            box-shadow: 0 10px 25px -5px rgb(0 0 0 / 0.05);
+            position: relative;
+            transform-origin: top center;
+        }
+
+        .mockup-container.desktop {
+            width: 1440px;
+        }
+
+        .mockup-container.tablet {
+            width: 768px;
+        }
+
+        .mockup-container.mobile {
+            width: 390px;
+            border-radius: 24px;
+            border-width: 4px;
+            border-color: #000000;
+        }
+
+        /* DYNAMIC OVERVIEW / INTRODUCTION BANNER */
+        .intro-section {
+            background-color: #ffffff;
+            border-bottom: 1px solid var(--border-primary);
+            padding: 40px;
+            max-width: 1000px;
+            margin: 40px auto;
+            border-radius: 8px;
+            border: 1px solid var(--border-primary);
+        }
+
+        .intro-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--text-heading);
+            margin-bottom: 12px;
+        }
+
+        .intro-desc {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+        }
+
+        /* ANNOTATION LEGEND SECTION */
+        .legend-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 12px;
+        }
+
+        .legend-color {
+            width: 14px;
+            height: 14px;
+            border-radius: 3px;
+            border: 1px dashed var(--border-primary);
+            background-color: #f8fafc;
+        }
+
+        /* TECHNICAL WIREFRAME SIMULATED STYLES */
+        .wf-header {
+            border-bottom: 1px solid #e2e8f0;
+            padding: 14px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #fff;
+        }
+
+        .wf-footer {
+            border-top: 1px solid #e2e8f0;
+            padding: 24px;
+            background-color: #f8fafc;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            font-size: 11px;
+        }
+
+        .wf-placeholder {
+            border: 1px dashed #cbd5e1;
+            background-color: #f1f5f9;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-mono);
+            font-size: 10px;
+            color: #94a3b8;
+            position: relative;
+        }
+
+        .wf-cross-svg {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            stroke: #e2e8f0;
+            stroke-width: 1;
+            stroke-dasharray: 2 2;
+        }
+
+        .wf-btn-solid {
+            background-color: #0f172a;
+            color: #ffffff;
+            font-size: 11px;
+            font-family: var(--font-mono);
+            padding: 8px 16px;
+            border-radius: 4px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .wf-btn-outline {
+            border: 1px solid #cbd5e1;
+            color: #334155;
+            font-size: 11px;
+            font-family: var(--font-mono);
+            padding: 8px 16px;
+            border-radius: 4px;
+            text-align: center;
+            font-weight: bold;
+            background-color: transparent;
+        }
+
+        /* PIN OVERLAYS FOR THE STANDALONE VIEWER */
+        .spec-pin {
+            position: absolute;
+            width: 22px;
+            height: 22px;
+            background-color: #111827;
+            color: #ffffff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-mono);
+            font-size: 10px;
+            font-weight: bold;
+            border: 2px solid #ffffff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+            cursor: pointer;
+            z-index: 50;
+            transform: translate(-50%, -50%);
+            transition: all 0.2s ease;
+        }
+
+        .spec-pin:hover {
+            transform: translate(-50%, -50%) scale(1.2);
+            background-color: #3b82f6;
+        }
+
+        .spec-pin.active {
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.4);
+            background-color: #2563eb;
+        }
+
+        /* FIXED DOCUMENTATION FOOTER */
+        .doc-footer {
+            background-color: #111827;
+            color: #9ca3af;
+            padding: 40px;
+            border-top: 4px solid #000000;
+            font-size: 12px;
+            font-family: var(--font-mono);
+        }
+
+        .doc-footer-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 32px;
+        }
+
+        .doc-footer-col h4 {
+            color: #f3f4f6;
+            margin-bottom: 12px;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid #374151;
+            padding-bottom: 6px;
+        }
+
+        .doc-footer-col ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. STICKY TOP SPECIFICATION BAR -->
+    <header class="spec-bar">
+        <div class="spec-brand">
+            <span class="spec-logo">RETAIL_SG SYS SPEC</span>
+            <span class="spec-tag">UX AUDIT HANDOFF</span>
+        </div>
+
+        <div class="spec-controls">
+            <!-- Screen Switcher selector -->
+            <select id="screen-select" class="spec-dropdown" onchange="switchScreen(this.value)">
+                <option value="refund">Refund Request</option>
+<option value="product">Product Page</option>
+<option value="rate">Rate the Order</option>
+<option value="cart">Your Cart</option>
+<option value="home">Landing Page (Home)</option>
+<option value="cancel">Order Cancellation</option>
+<option value="checkout">Secure Checkout</option>
+<option value="search">Search Results</option>
+<option value="thankyou">Thank You for Your Order</option>
+            </select>
+
+            <!-- Breakpoint selectors -->
+            <div class="viewport-selector">
+                <button class="viewport-btn active" id="btn-desktop" onclick="switchBreakpoint('desktop')">
+                    D1440
+                </button>
+                <button class="viewport-btn" id="btn-tablet" onclick="switchBreakpoint('tablet')">
+                    T768
+                </button>
+                <button class="viewport-btn" id="btn-mobile" onclick="switchBreakpoint('mobile')">
+                    M390
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- INTRO / OVERVIEW SECTION -->
+    <section class="intro-section">
+        <h1 class="intro-title">RETAIL_SG Corporate UX Wireframe Blueprint & Specification Manual</h1>
+        <p class="intro-desc">
+            This document sets physical layout boundaries, core spacing ratios, system validations, and behavioral edge cases for developers and designers implementing the RETAIL_SG e-commerce transactional flows.
+        </p>
+
+        <h3 class="spec-section-title">ANNOTATION INDEX LEGEND</h3>
+        <div class="legend-grid">
+            <div class="legend-item">
+                <div class="legend-color"></div>
+                <span>CTA - Standard buttons & redirect triggers</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color"></div>
+                <span>Form Inputs - Text fields, checkboxes, radios</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color"></div>
+                <span>Trust Elements - Security assertions compliance</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color"></div>
+                <span>Pricing Blocks - Billing metrics aggregations</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- INTERACTIVE WORKBENCH -->
+    <main class="workspace">
+        <!-- LEFT PANEL: TOC + METADATA -->
+        <aside class="sidebar">
+            <div>
+                <h3 class="spec-section-title">ACTIVE SCREEN META</h3>
+                <div class="screen-meta-grid" id="screen-meta">
+                    <!-- Dynamic meta injected -->
+                </div>
+            </div>
+
+            <div>
+                <h3 class="spec-section-title">SECTION TABLE OF CONTENTS</h3>
+                <div class="section-toc" id="section-toc">
+                    <!-- Dynamic sections injected -->
+                </div>
+            </div>
+        </aside>
+
+        <!-- CENTER PANEL: LIVE MOCKUP FRAME -->
+        <section class="canvas-area">
+            <div id="mockup" class="mockup-container desktop">
+                <!-- Inner wireframe visualization frame -->
+                <div class="wf-header">
+                    <span style="font-family: var(--font-mono); font-weight: bold; font-size: 13px;">RETAIL_SG</span>
+                    <span style="font-family: var(--font-mono); font-size: 10px; color: var(--text-muted)">SECURE PORTAL</span>
+                </div>
+                
+                <div id="mockup-content" style="padding: 32px; min-height: 400px; position: relative;">
+                    <!-- Skeletons injected dynamic -->
+                </div>
+                
+                <div class="wf-footer">
+                    <div>
+                        <strong>RETAIL_SG</strong>
+                        <p style="font-size: 9px; color: var(--text-muted); margin-top: 4px;">Premium Singapore System Architecture Group</p>
+                    </div>
+                    <div>
+                        <strong>Customer Support</strong>
+                        <p style="font-size: 9px; color: var(--text-muted); margin-top: 4px;">Help Center &bull; Refund Rules</p>
+                    </div>
+                    <div>
+                        <strong>Version Control</strong>
+                        <p style="font-size: 9px; color: var(--text-muted); margin-top: 4px;">System Spec Build v4.2</p>
+                    </div>
+                </div>
+
+                <!-- Live absolute pins layer -->
+                <div id="pins-layer"></div>
+            </div>
+        </section>
+
+        <!-- RIGHT PANEL: SPECIFICATION ARRAYS -->
+        <aside class="annotations-panel" id="annotations-ledger">
+            <!-- Dynamic annotations cards injected -->
+        </aside>
+    </main>
+
+    <!-- FOOTER DOCUMENTATION SECTION -->
+    <footer class="doc-footer">
+        <div class="doc-footer-grid">
+            <div class="doc-footer-col">
+                <h4>DESIGN RULES</h4>
+                <ul>
+                    <li>Off-whites & Carbon blacks scale layout priority.</li>
+                    <li>Interactive targets maintain min 44px boundaries.</li>
+                    <li>Singapore GST (9%) applied across accounting sheets.</li>
+                </ul>
+            </div>
+            <div class="doc-footer-col">
+                <h4>SECURITY PARITY</h4>
+                <ul>
+                    <li>SSL Gateway pipelines proxy critical cart structures.</li>
+                    <li>Checkout states secured via HTTPS callbacks rules.</li>
+                </ul>
+            </div>
+            <div class="doc-footer-col">
+                <h4>VERSION HISTORY</h4>
+                <ul>
+                    <li>Build v4.2 &bull; Active Releases</li>
+                    <li>Designed by Enterprise UX Systems Group</li>
+                    <li>2026 Sandbox Standardizations Manual</li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <!-- INTERACTIVE DATA AND CONTROLLERS SCRIPTS -->
+    <script>
+        // Inject compiled screens dataset
+        const SCREENS = [
+  {
+    "id": "refund",
+    "title": "Refund Request",
+    "description": "Interface allows customers to select products from a previous purchase and specify reasons, upload return evidence, select refund methods, and submit claims.",
+    "metadata": {
+      "scope": "Post-purchase Refund & Claim Redirection Flow",
+      "complexity": "Medium",
+      "security": "Requires valid order token and customer login matching payment record",
+      "version": "v1.4.2",
+      "lastUpdated": "May 2026",
+      "designer": "Enterprise UX Systems Group"
+    },
+    "sections": [
+      {
+        "id": "SEC 1",
+        "name": "Order & Product Item Selector",
+        "description": "Displays the active order details and permits itemized product selection for multi-item refund calculations."
+      },
+      {
+        "id": "SEC 2",
+        "name": "Return Reason Form",
+        "description": "Radio selection list capturing user motivation and structured return categorizations."
+      },
+      {
+        "id": "SEC 3",
+        "name": "Product Condition Media Upload",
+        "description": "Configured file attachment panel targeting physical validation of returns."
+      },
+      {
+        "id": "SEC 4",
+        "name": "Refund Method Allocation",
+        "description": "Dual-card layout for refund routing (original method vs. internal store credit)."
+      },
+      {
+        "id": "SEC 5",
+        "name": "Logistical Shipping Instructions",
+        "description": "Informative banner explaining return collection drops and pickup location addresses."
+      },
+      {
+        "id": "SEC 6",
+        "name": "SLA Submission Summary Card",
+        "description": "Black panel summarizing final return value with primary CTA submission trigger."
+      }
+    ],
+    "annotations": [
+      {
+        "id": 1,
+        "elementName": "Order Identifier & Selection",
+        "type": "Interactive Option",
+        "title": "Order Selector Badge",
+        "description": "Displays current order ID (#SP-2026-9931) linked to customer account.",
+        "interactionBehavior": "A read-only token in this state. If order contains multiple items, checking or unchecking selects individual lines for partial return processing.",
+        "uxRationale": "Avoids complex navigation by packing multiple items in a single claim page, improving resolution times.",
+        "businessLogic": "Order must have status Shipped/Delivered and fall within the 30-day corporate satisfaction guarantee window.",
+        "responsiveBehavior": "Horizontal flex-stack collapses to vertical on 390px mobile screens, keeping the item layout compact.",
+        "edgeCases": "If order has already been partially refunded, the previously returned items appear greyed out with an \"Already Refunded\" warning label."
+      },
+      {
+        "id": 2,
+        "elementName": "Add other products from order",
+        "type": "CTA",
+        "title": "Secondary Add Item CTA",
+        "description": "Text-based button with a leading addition indicator.",
+        "interactionBehavior": "Tapping opens an in-page modal/drawer grid of other items purchased in the same invoice sequence.",
+        "uxRationale": "Consolidates multi-item returns to a single shipment package, reducing standard logistics carrier billing.",
+        "businessLogic": "Only items with active return eligibility can be appended to the list.",
+        "responsiveBehavior": "Slightly increases active padding limits on touchscreens to fulfill 44px minimum target heights.",
+        "edgeCases": "Hidden if the invoice only contains one product lines."
+      },
+      {
+        "id": 3,
+        "elementName": "Return Reason Radio Selection",
+        "type": "Form Input",
+        "title": "Primary Categorization Radio Group",
+        "description": "Mutually exclusive radio array mapping defective, incorrect matching, or subjective changes of mind.",
+        "interactionBehavior": "Selecting a value changes active state and dynamically drives conditional fields below.",
+        "uxRationale": "Keeps form simple while gathering structured metrics for the Quality Assurance and Warehouse teams.",
+        "businessLogic": "Selecting \"Change of mind\" automatically de-authorizes cash refund methods unless specific loyalty tiers are met.",
+        "responsiveBehavior": "Full-width vertical stack on all devices to ensure easy finger tapping.",
+        "edgeCases": "If none is selected, clicking Submit highlights the entire card in red warning state."
+      },
+      {
+        "id": 4,
+        "elementName": "Notes Text Input area",
+        "type": "Form Input",
+        "title": "Description Text Area",
+        "description": "Open-ended feedback text box limited to 1000 characters.",
+        "interactionBehavior": "Focus changes border contrast. Captures optional descriptive feedback.",
+        "uxRationale": "Gives users a voice to explain edge cases, preventing user frustration during complex return reasons.",
+        "businessLogic": "Required field if return selection equals \"Defective product\" or \"Not as described\".",
+        "responsiveBehavior": "Heights auto-adjust down to 100px on mobile screens to save layout real estate.",
+        "edgeCases": "Displays character count indicator at bottom right corners when approaching absolute limits."
+      },
+      {
+        "id": 5,
+        "elementName": "Image Upload Grid",
+        "type": "Form Input",
+        "title": "Visual Verification Grid",
+        "description": "Box layout showing 1 slot with add camera action and 2 empty placeholders.",
+        "interactionBehavior": "Clicking launches default system file pickers or camera roll intents in native viewport apps.",
+        "uxRationale": "Lowers manual inspection times at logistic warehouses by pre-verifying defective statuses visually.",
+        "businessLogic": "Restricted to JPG, PNG formats, maximum file size 8MB each. Minimum 2 photos required if defective is selected.",
+        "responsiveBehavior": "Three-column grid transforms to 2-column on mobile, with secondary thumbnails scrolling horizontally.",
+        "edgeCases": "Displays instant inline preview thumbnail with a delete cross marker upon successful upload."
+      },
+      {
+        "id": 6,
+        "elementName": "Original Payment Refund Card",
+        "type": "Interactive Option",
+        "title": "Refund Destination Selector - Card A",
+        "description": "Card highlighting original VISA credit route with an active tick illustration.",
+        "interactionBehavior": "Mutually exclusive with Store Balance. Renders checked outline when selected.",
+        "uxRationale": "Clear SLA declaration (3-5 business days) sets realistic expectations and reduces customer care contacts.",
+        "businessLogic": "Refund routing must match the exact gateway transaction token used during initial checkouts.",
+        "responsiveBehavior": "Stretches to full width on mobile viewports; flex row on desktop.",
+        "edgeCases": "If original card is expired, fallback prompts appear requesting bank account routing."
+      },
+      {
+        "id": 7,
+        "elementName": "Store Balance Refund Card",
+        "type": "Interactive Option",
+        "title": "Refund Destination Selector - Card B",
+        "description": "Card choosing immediate standard Store Credit credit allocation.",
+        "interactionBehavior": "Deselects Card A. Displays immediate reward benefit highlights.",
+        "uxRationale": "Incentivizes keeping capital inside the retail eco-system by offering instant access.",
+        "businessLogic": "Store credit balance is non-transferable and does not expire inside the customer database.",
+        "responsiveBehavior": "Stretches to full width on mobile viewports.",
+        "edgeCases": "Often tied to supplementary coupon rewards (e.g. +$10 store cash) to drive adoption."
+      },
+      {
+        "id": 8,
+        "elementName": "Return Logistic Banner Instructions",
+        "type": "Alert/Notification",
+        "title": "Dropoff Fulfillment Instructions Banner",
+        "description": "Informational banner with a high-contrast label pointing to NinjaVan logistics center dropoffs.",
+        "interactionBehavior": "Read-only context box.",
+        "uxRationale": "Explicit instructions with physical addresses lessen packaging compliance errors and delivery losses.",
+        "businessLogic": "Dynamic address selection can adapt based on the customer's registered geographical region.",
+        "responsiveBehavior": "Dashed borders adapt margins, fonts adjust slightly down.",
+        "edgeCases": "If postal code database is offline, shows standard regional warehouse contacts instead."
+      },
+      {
+        "id": 9,
+        "elementName": "Submit Claim Action",
+        "type": "CTA",
+        "title": "Primary Request CTA Trigger",
+        "description": "High-contrast full-width black interactive button with secondary disclaimer text below.",
+        "interactionBehavior": "Tapping triggers backend validation API payload submission, transitioning into processing spinners.",
+        "uxRationale": "Strong structural grouping with total refund value (SGD 189.00) confirms final transactions instantly.",
+        "businessLogic": "Submits formal claim payload to CRM and Logistics databases. Blocks concurrent double-clicks.",
+        "responsiveBehavior": "Fixed bottom-bar stickiness on mobile viewports for effortless thumbs-reach accessibility.",
+        "edgeCases": "Button enters disabled grey-state if required data fields are incomplete."
+      }
+    ]
+  },
+  {
+    "id": "product",
+    "title": "Product Page",
+    "description": "B2C Premium Product Detail screen for premium headphones, containing visual mockups, breadcrumbs, spec tables, delivery countdowns, and certified customer reviews.",
+    "metadata": {
+      "scope": "Desktop and Mobile E-commerce Detail Conversion Hub",
+      "complexity": "High",
+      "security": "Standard SSL, review writing requires verified buyer badge authentication",
+      "version": "v2.1",
+      "lastUpdated": "May 2026",
+      "designer": "Lead Visual Strategist"
+    },
+    "sections": [
+      {
+        "id": "SEC 1",
+        "name": "Product Media & Gallery Console",
+        "description": "Large headphone image with edition watermark indicator and thumbnail slide carousel."
+      },
+      {
+        "id": "SEC 2",
+        "name": "Information Title Block & Social CTA",
+        "description": "Aero-X Wireless titles, short descriptions, and share triggers."
+      },
+      {
+        "id": "SEC 3",
+        "name": "Checkout Transaction Panel",
+        "description": "Pricing block, stock tags, Buy Now solid CTA, and Add To Cart secondary action."
+      },
+      {
+        "id": "SEC 4",
+        "name": "Delivery Readiness Ticker",
+        "description": "Real-time countdown banner urging user conversion to secure next-day fulfillments."
+      },
+      {
+        "id": "SEC 5",
+        "name": "Technical Specification Matrix",
+        "description": "Detailed technical characteristics listed in a highly legible grid."
+      },
+      {
+        "id": "SEC 6",
+        "name": "Verified Buyer Reviews Segment",
+        "description": "Detailed individual feedback cards reflecting aggregate rating summaries."
+      }
+    ],
+    "annotations": [
+      {
+        "id": 1,
+        "elementName": "Product Hero Media Box",
+        "type": "Card Element",
+        "title": "Main Product Media Shell",
+        "description": "Generous square layout framing high-resolution product mockup with a \"Viewing: Noir Edition\" state tag.",
+        "interactionBehavior": "Supports dual-tap zooms and horizontal page-swipes on touch controllers.",
+        "uxRationale": "Large visual focus provides psychological assurance of quality before cash layout.",
+        "businessLogic": "Media asset adapts automatically based on the color variant selected in subsequent fields.",
+        "responsiveBehavior": "Transitions from left-aligned 50% block on desktop to full-width first item on mobile.",
+        "edgeCases": "If media fails to load, standard placeholder illustration appears automatically."
+      },
+      {
+        "id": 2,
+        "elementName": "Share Product Action",
+        "type": "CTA",
+        "title": "Social Share Icon Button",
+        "description": "Minimal outline shared node icon in head block.",
+        "interactionBehavior": "Triggers native sharing cards in smartphones, or clipboard copy dialogs in desktops.",
+        "uxRationale": "Convenious peer-sharing boosts organic traffic numbers with minimal design friction.",
+        "businessLogic": "Appends unique tracking campaign tags (?ref=share_user_id) to the copied URL.",
+        "responsiveBehavior": "Remains in the same header alignment relative to title block.",
+        "edgeCases": "Displays absolute tooltip saying \"Link copied!\" upon clicking."
+      },
+      {
+        "id": 3,
+        "elementName": "In Stock Validation Tag",
+        "type": "Trust Element",
+        "title": "Inventory Availability Pill",
+        "description": "Green-ish high contrast badge conveying current catalog stock status.",
+        "interactionBehavior": "Read-only.",
+        "uxRationale": "An immediate clarity of stock blocks checkout drop-offs caused by unexpected out-of-stock modals.",
+        "businessLogic": "Changes state to \"Low Stock\" (yellow) if warehouse limits fall below 10 units, or \"Out of Stock\" (red) if zero.",
+        "responsiveBehavior": "Aligned next to total pricing figures on all breakpoints.",
+        "edgeCases": "In low stock states, displays exact number remaining (e.g. \"Only 3 left\")."
+      },
+      {
+        "id": 4,
+        "elementName": "Primary CTA - Buy Now",
+        "type": "CTA",
+        "title": "Direct Instant Checkout Button",
+        "description": "Large high-contrast solid black button triggering high conversion bypass checkout paths.",
+        "interactionBehavior": "Instantly redirects user to Secure Checkout screen with chosen product pre-loaded.",
+        "uxRationale": "High-visibility core action allows returning users to purchase in seconds.",
+        "businessLogic": "Bypasses standard cart collection queues, pushing transaction directly into checkout database states.",
+        "responsiveBehavior": "Occupies full screen width on mobile, stacked above \"Add to Cart\".",
+        "edgeCases": "Button greyed out and reads \"Out of stock\" if inventory count equals zero."
+      },
+      {
+        "id": 5,
+        "elementName": "Secondary CTA - Add to Cart",
+        "type": "CTA",
+        "title": "Shopping Queue Appender Button",
+        "description": "Stretched white border-outline button below Buy Now.",
+        "interactionBehavior": "Appends unit to user cart state without moving active routes, updating cart header badges.",
+        "uxRationale": "Permits browsing and multiple purchases by not forcing page redirect sequences.",
+        "businessLogic": "Adds unit to local storage or API cart sequence matching customer browser session cookies.",
+        "responsiveBehavior": "Becomes equal width to Buy Now in mobile stacks, enabling balanced layout weight.",
+        "edgeCases": "Animates into checkmark saying \"Added to Cart\" for 2 seconds when clicked successfully."
+      },
+      {
+        "id": 6,
+        "elementName": "Delivery Urgency Countdown Timer",
+        "type": "Alert/Notification",
+        "title": "Fulfillment Urgency Bar",
+        "description": "Informational banner with lightning bolt logo and continuous real-time countdown tracking.",
+        "interactionBehavior": "Live tick updating seconds, hours, minutes.",
+        "uxRationale": "FOMO (Fear Of Missing Out) trigger prompts hesitant shoppers to lock in delivery standard immediately.",
+        "businessLogic": "Linked to active logistics sorting schedules. If timer hits zero, countdown resets automatically match the next day block.",
+        "responsiveBehavior": "Collapses horizontal layouts into double lines on narrow mobiles.",
+        "edgeCases": "Hidden if shipping destination postal code registers outside regional courier zones."
+      },
+      {
+        "id": 7,
+        "elementName": "Specification Matrix Table",
+        "type": "Card Element",
+        "title": "Technical Characteristics List",
+        "description": "Grid representing driver size, ranges, weights, and Bluetooth codecs.",
+        "interactionBehavior": "Tapping headings on some complex items opens descriptive tooltips explaining spec definitions.",
+        "uxRationale": "Organized rows ease fast feature comparisons, especially targeting tech-conscious profiles.",
+        "businessLogic": "Syncs dynamic spec properties based on catalog ERP database records.",
+        "responsiveBehavior": "Paddings reduce. Transitions to single cell columns on ultra-narrow views.",
+        "edgeCases": "Missing secondary rows degrade gracefully by hiding empty parameters automatically."
+      },
+      {
+        "id": 8,
+        "elementName": "Aggregate Reviews & Rating Summary",
+        "type": "Trust Element",
+        "title": "Social Proof Score Block",
+        "description": "Star visualization with review counts (4.9 based on 1,240 reviews) and full customer list triggers.",
+        "interactionBehavior": "Clicking scrolls window focus down automatically to active customer reviews block.",
+        "uxRationale": "Social validation acts as the heaviest motivator for luxury electronics checkouts.",
+        "businessLogic": "Calculates active geometric mean score from SQL reviews table instantly.",
+        "responsiveBehavior": "Aligned below item title block on desktop, moves beneath the specifications block on mobile configurations.",
+        "edgeCases": "Displays \"Be the first to review\" link if average score corresponds to null."
+      }
+    ]
+  },
+  {
+    "id": "rate",
+    "title": "Rate the Order",
+    "description": "Post-fulfillment customer review screen. Guides users through standard star-system evaluations, text testimonials, characteristics ratings, and visual media submissions.",
+    "metadata": {
+      "scope": "Post-delivery Engagement & Conversion Feedback System",
+      "complexity": "Low",
+      "security": "Requires unique purchase URL or validated past order state link",
+      "version": "v1.1",
+      "lastUpdated": "May 2026",
+      "designer": "CRM and Retention Lead"
+    },
+    "sections": [
+      {
+        "id": "SEC 1",
+        "name": "Overall Sentiment Star Selector",
+        "description": "Centralized prominent question card capturing aggregate feeling via interactive stars."
+      },
+      {
+        "id": "SEC 2",
+        "name": "Written Feedback Input Box",
+        "description": "Flexible feedback area focusing on personal delivery and overall product details."
+      },
+      {
+        "id": "SEC 3",
+        "name": "Itemized Product Rating Grid",
+        "description": "Individual item visual identification card paired with independent attribute ratings."
+      },
+      {
+        "id": "SEC 4",
+        "name": "Customer Media Upload Portal",
+        "description": "Interactive item for adding real customer photos to supplement rating proof."
+      },
+      {
+        "id": "SEC 5",
+        "name": "Submit Review Action Block",
+        "description": "Primary submit transaction CTA button aligned at the bottom right quadrant."
+      }
+    ],
+    "annotations": [
+      {
+        "id": 1,
+        "elementName": "Overall Stars Rating",
+        "type": "Form Input",
+        "title": "Sentiment Evaluator Component",
+        "description": "Interactive array of five outline stars representing overall vendor fulfillment scoring.",
+        "interactionBehavior": "Hovering activates stars sequentially (colour/fill change). Tapping commits ranking state.",
+        "uxRationale": "Low friction input lets customers express satisfaction levels in 1 second.",
+        "businessLogic": "Saves numeric value (1-5) to customer CRM database. Ratings of 3 stars or lower automatically raise tickets in Customer Support queues.",
+        "responsiveBehavior": "Scale handles resize cleanly; centered within card layout limits across all widths.",
+        "edgeCases": "No rating defaults to 0 value; form is locked until a rating from 1 to 5 is captured."
+      },
+      {
+        "id": 2,
+        "elementName": "Feedback Text Area",
+        "type": "Form Input",
+        "title": "Personal Testimonial Input Field",
+        "description": "A dedicated note panel asking questions on fit, performance, and timelines.",
+        "interactionBehavior": "Input triggers automatic scaling height blocks, capturing written observations.",
+        "uxRationale": "Accommodates elaborate context descriptions, giving vital quality insights to manufacturing partners.",
+        "businessLogic": "Text sanitization parser restricts malicious HTML blocks or code injections.",
+        "responsiveBehavior": "Occupies full width on all viewpoints to guarantee maximum typing space.",
+        "edgeCases": "Anonymization choice checkbox appears underneath for customer privacy options."
+      },
+      {
+        "id": 3,
+        "elementName": "Individual Product Star Selector",
+        "type": "Form Input",
+        "title": "Item Technical Quality Star Array",
+        "description": "Direct item star panel rating \"Product Quality\" specifications.",
+        "interactionBehavior": "Works identically to overall star array, localized to the specific Ergonomic Office Chair V2 item line.",
+        "uxRationale": "Decoupled overall merchant ratings from individual item performance assessments, preserving accurate data analytics.",
+        "businessLogic": "Provides vendor-facing item quality metrics for marketplace catalog pruning.",
+        "responsiveBehavior": "Paddings and alignments scale to center nicely on mobile viewports.",
+        "edgeCases": "Automatically skipped if item has been deleted from merchant inventory."
+      },
+      {
+        "id": 4,
+        "elementName": "Upload Media button",
+        "type": "CTA",
+        "title": "Client Review Photo Drag/Click Core Box",
+        "description": "A labeled dashed border upload card saying \"TẢI LÊN\".",
+        "interactionBehavior": "Launches local photo folder picker or triggers smartphone file upload cameras.",
+        "uxRationale": "Verified user photos represent highly effective conversion catalysts on live product pages.",
+        "businessLogic": "Limits files to standard graphic extensions (HEIC, JPG, PNG). Auto compress is run client-side.",
+        "responsiveBehavior": "Fits within the grid columns beside the product wireframe block.",
+        "edgeCases": "Upload shows incremental progress circular overlays during active file transfers."
+      },
+      {
+        "id": 5,
+        "elementName": "Submit Review Button",
+        "type": "CTA",
+        "title": "Submit Survey Form Action Trigger",
+        "description": "Bold rectangular layout with trailing structural action arrows (\"Send Review ->\").",
+        "interactionBehavior": "Dispatches payload, displays standard Success Modal, and redirects to landing grids after 3 seconds.",
+        "uxRationale": "Clear forward arrow conveys route progress actions.",
+        "businessLogic": "On successful save, fires database update assigning user review badges to loyalty profiles.",
+        "responsiveBehavior": "Expands to full width matching mobile bottom gutters.",
+        "edgeCases": "Disabled if stars are zero."
+      }
+    ]
+  },
+  {
+    "id": "cart",
+    "title": "Your Cart",
+    "description": "B2C Shopping Cart summary screen. Contains itemized checkout lists, item stock validators (sold out triggers), aggregate totals calculations, coupon fields, and cross-sell recommendation modules.",
+    "metadata": {
+      "scope": "Active Checkouts Qualification & Value Maximization Funnel",
+      "complexity": "High",
+      "security": "Protected cookie state, active cross-site scripting guards",
+      "version": "v4.0",
+      "lastUpdated": "May 2026",
+      "designer": "Lead Conversion Architect"
+    },
+    "sections": [
+      {
+        "id": "SEC 1",
+        "name": "Shopping Item Listing Grid",
+        "description": "Table rows exhibiting selected items with details (name, color, features), price, and quantity counters."
+      },
+      {
+        "id": "SEC 2",
+        "name": "Item Quantity Manager",
+        "description": "Adjustable standard numerical counters allowing customer count modifications."
+      },
+      {
+        "id": "SEC 3",
+        "name": "Transactional Order Summary Sidebar",
+        "description": "Comprehensive checkout total calculations with 9% GST declarations."
+      },
+      {
+        "id": "SEC 4",
+        "name": "Promotional Voucher System Panel",
+        "description": "Input fields for entering coupon sequences alongside visible listings of locked or active discounts."
+      },
+      {
+        "id": "SEC 5",
+        "name": "Security & Trust Validation Badgework",
+        "description": "Reassuring text blocks verifying checkout encryption protocols."
+      },
+      {
+        "id": "SEC 6",
+        "name": "Interactive Cross-Sell Recommendation Matrix",
+        "description": "Pairs Well with Your Cart thumbnail recommendations directly pushing quick add items."
+      }
+    ],
+    "annotations": [
+      {
+        "id": 1,
+        "elementName": "Item Remove Action",
+        "type": "CTA",
+        "title": "Item Deletion Trigger button",
+        "description": "Red \"Remove\" action text next to trashcan icon.",
+        "interactionBehavior": "Removes item from cart, triggering animation sequences as the row disappears and recalculates total values.",
+        "uxRationale": "Maintains high visibility, reducing user effort in managing unintended purchases.",
+        "businessLogic": "Removes item from user session cart database. Cart item badge in header decreases unit counts.",
+        "responsiveBehavior": "Placed underneath details text block on mobile screens to maintain readable column grids.",
+        "edgeCases": "Triggers toast alert saying \"Undo Item Removal\" allowing fast retrieval of accidentally deleted products."
+      },
+      {
+        "id": 2,
+        "elementName": "Quantity Selector Counter",
+        "type": "Form Input",
+        "title": "Quantity Step Adjustment Panel",
+        "description": "Increment and decrement action outline buttons enclosing active numerical text.",
+        "interactionBehavior": "Clicking minus or plus changes values instantly and dispatches database calculations.",
+        "uxRationale": "Familiar pattern eliminates typing mistakes while modifying cart volumes.",
+        "businessLogic": "Minus limits at 1. Clicking minus on 1 prompts \"Do you want to delete this item?\" confirmation.",
+        "responsiveBehavior": "Centered on desktop columns; moves to bottom right of row elements on mobile formats.",
+        "edgeCases": "If stock limit is reached (e.g. only 2 left), plus button deactivates with warning tooltip."
+      },
+      {
+        "id": 3,
+        "elementName": "Sold Out Status tag",
+        "type": "Alert/Notification",
+        "title": "Stock Availability Alert Indicator",
+        "description": "Orange badge reading \"Sold out\" placed next to laptop sleeve detail.",
+        "interactionBehavior": "Deactivates quantity modification plus steps and checkout paths.",
+        "uxRationale": "Early, explicit callouts on availability save users frustration of being blocked late during payment sequences.",
+        "businessLogic": "Triggered when warehouse ERP updates item stock counts to zero mid-session.",
+        "responsiveBehavior": "Wraps below details labels dynamically.",
+        "edgeCases": "Blocks the primary Proceed to Checkout action: user must remove sold out item before proceeding."
+      },
+      {
+        "id": 4,
+        "elementName": "Order Pricing Summary Block",
+        "type": "Pricing Block",
+        "title": "Order Financial Overview Card",
+        "description": "A dedicated sidebar stacking subtotals, GST (9%), shipping variables, and final aggregated totals.",
+        "interactionBehavior": "Updates automatically with visual count calculations.",
+        "uxRationale": "Full price breakdown prevents cart abandonment triggered by hidden or unexpected taxes.",
+        "businessLogic": "Calculates active 9% Singapore GST directly from standard subtotals. Shipping is standard free or flat-rate.",
+        "responsiveBehavior": "Positioned as secondary right sidebar on desktop, stacks below shopping items lists on mobile.",
+        "edgeCases": "Displays multi-currency equivalent estimates if configured for overseas customers."
+      },
+      {
+        "id": 5,
+        "elementName": "Proceed to Checkout Action",
+        "type": "CTA",
+        "title": "Primary Conversion Checkout CTA",
+        "description": "High emphasis wide solid white button framed within the dark overview panel.",
+        "interactionBehavior": "Transfers routing focus to Secure Checkout view sequence.",
+        "uxRationale": "Dominant button sizing guarantees intuitive navigation to step stages.",
+        "businessLogic": "Blocks progression if any item registers active \"Sold out\" or \"Invalid Quantity\" flags.",
+        "responsiveBehavior": "Locks to sticky screens bottom layout on mobile devices.",
+        "edgeCases": "Enters loading disabled status during checkout session initialization."
+      },
+      {
+        "id": 6,
+        "elementName": "Voucher Code Form Panel",
+        "type": "Form Input",
+        "title": "Promotional Promo Entry System",
+        "description": "Text entry block with high contrast label \"Apply\" action button.",
+        "interactionBehavior": "Validates code sequence against core marketing schemas, displaying success hooks.",
+        "uxRationale": "Gives shoppers immediate, in-context validation of promotional price cuts.",
+        "businessLogic": "Applies discount values to subtotal lists. Restricts duplicate coupon groupings.",
+        "responsiveBehavior": "Stretches horizontally to scale across multiple layout columns.",
+        "edgeCases": "Invalid codes display red error message below (\"Code expired or invalid\")."
+      },
+      {
+        "id": 7,
+        "elementName": "Pairs Well recommendation Grid",
+        "type": "Card Element",
+        "title": "Algorithmic Upsell Grid Segment",
+        "description": "A 4-column display of matching accessories (Desk Pad, USB-C Cable) with pricing.",
+        "interactionBehavior": "Clicking any item card instantly displays quick preview drawer showing specifications.",
+        "uxRationale": "Smart personalization aids discoverability of accessories, raising average basket value values.",
+        "businessLogic": "Driven by recommendation database engines picking items bought together historically.",
+        "responsiveBehavior": "Collapses from 4-column desktop layout to 2-column or horizontal swipe lists on mobile phones.",
+        "edgeCases": "Hidden if cart already contains all recommended accessory categories."
+      }
+    ]
+  },
+  {
+    "id": "home",
+    "title": "Landing Page (Home)",
+    "description": "Promotional homepage hub. Consists of primary category menus, search integration, Singapore National Day Sale hero banners, New Arrivals, hot-picks matrices, and flash sale countdowns.",
+    "metadata": {
+      "scope": "Global Storefront & Marketing Landing Console",
+      "complexity": "High",
+      "security": "Stripe/PCI metrics, user tracking permission checks",
+      "version": "v3.2",
+      "lastUpdated": "May 2026",
+      "designer": "Creative Marketing Lead"
+    },
+    "sections": [
+      {
+        "id": "SEC 1",
+        "name": "Global Application Header",
+        "description": "Main navigation bar with brand, category links, search input, and utility customer access icons."
+      },
+      {
+        "id": "SEC 2",
+        "name": "National Day Hero Banner",
+        "description": "Promotional double-width marketing space detailing seasonal sale offers with shop actions."
+      },
+      {
+        "id": "SEC 3",
+        "name": "New Arrivals Product Section",
+        "description": "Multi-image block highlight area exhibiting new stock arrivals."
+      },
+      {
+        "id": "SEC 4",
+        "name": "Top Picks Recommendation Display",
+        "description": "Personalized layouts pointing to verified consumer favorite categories."
+      },
+      {
+        "id": "SEC 5",
+        "name": "Secondary Super Sale Category Banner",
+        "description": "Horizontal marketing space partitioning content page splits."
+      },
+      {
+        "id": "SEC 6",
+        "name": "Flash Sale countdown segment",
+        "description": "Limited-time offer cards urging rapid checkouts with view-more products button."
+      }
+    ],
+    "annotations": [
+      {
+        "id": 1,
+        "elementName": "Global Category Navigation",
+        "type": "Navigation",
+        "title": "Core Department Tabs",
+        "description": "Horizontal links mapping Electronics, Fashion, Home & Living, Groceries, and Special Deals.",
+        "interactionBehavior": "Hovering opens dropdown menus with deep sub-categories. Active tab gets bold underlining.",
+        "uxRationale": "Establishes logical, predictable navigation hierarchy matching top e-commerce practices.",
+        "businessLogic": "Links point coordinates to corresponding landing folders in core CMS databases.",
+        "responsiveBehavior": "Hidden behind a standard hamburger menu icon drawer systems on tablet and mobile viewports.",
+        "edgeCases": "Deals category links dynamically highlight in bright color tones to focus attention."
+      },
+      {
+        "id": 2,
+        "elementName": "Integrated Search Input Bar",
+        "type": "Form Input",
+        "title": "Integrated Auto-Suggest Search Input",
+        "description": "Generous pill input with trailing magnifier graphic and \"Search for products...\" text.",
+        "interactionBehavior": "Typing opens responsive overlay showing autocomplete suggestions and popular tags.",
+        "uxRationale": "Direct searching represents the primary channel used by high-intent purchase profiles.",
+        "businessLogic": "Connected to semantic search server clusters. Matches titles, descriptions, and tags.",
+        "responsiveBehavior": "Collapses to simple search icon in mobile headers, expanding full width on tap.",
+        "edgeCases": "No results query advises closest alternative keywords or trending terms."
+      },
+      {
+        "id": 3,
+        "elementName": "Singapore National Day Hero Slider",
+        "type": "Card Element",
+        "title": "Featured Seasonal Marketing Carousel",
+        "description": "Large hero graphic framing National Day Sale message offering up to 58% discounts.",
+        "interactionBehavior": "Supports mouse drags on desktop or horizontal finger swipes on mobile nodes.",
+        "uxRationale": "Prominent marketing visuals focus store identity on high conversion events.",
+        "businessLogic": "Controlled via marketing calendar scheduler. Auto-rotates every 5 seconds.",
+        "responsiveBehavior": "Aspect ratios scale to prevent media text clipping; drops text descriptions on mobile.",
+        "edgeCases": "Offline settings serve generic non-seasonal brand campaigns instead."
+      },
+      {
+        "id": 4,
+        "elementName": "Product Card - Wishlist Heart",
+        "type": "CTA",
+        "title": "Favorites Wishlist Toggle Button",
+        "description": "Circular outline icon representing standard favoriting hearts.",
+        "interactionBehavior": "Toggling transitions icon into high contrast solid heart shape, saving item.",
+        "uxRationale": "Saves items for later browse cycles, lowering exit friction during casual session lookups.",
+        "businessLogic": "Saves item mapping token inside user database bookmarks.",
+        "responsiveBehavior": "Maintains static corner pin placements on all devices.",
+        "edgeCases": "Triggers login tooltip helper if guest profiles attempt saves."
+      },
+      {
+        "id": 5,
+        "elementName": "Quick View Action Trigger",
+        "type": "CTA",
+        "title": "Product Quick View overlay trigger",
+        "description": "Horizontal black button centered inside card listing.",
+        "interactionBehavior": "Tapping triggers high speed slide-over sheet or modal previewing specifications and buy buttons.",
+        "uxRationale": "Lets shoppers evaluate item sizing without suffering standard product page reload delays.",
+        "businessLogic": "Retrieves light-weight JSON detail catalog details from servers.",
+        "responsiveBehavior": "Deactivated on mobile ports where cards trigger direct page transitions instead.",
+        "edgeCases": "Fallback transitions page focus to direct item sheet if modal systems fail."
+      },
+      {
+        "id": 6,
+        "elementName": "Add to Cart Icon Trigger",
+        "type": "CTA",
+        "title": "Micro Purchase Icon CTA",
+        "description": "Cart vector icon on cards right sides.",
+        "interactionBehavior": "Clicking instantly adds 1 count to user cart sequence, triggering header badge count animations.",
+        "uxRationale": "Removes purchasing steps, optimizing high speed repeat checkouts.",
+        "businessLogic": "Decreases warehouse counts values, reserves stock for 15 minutes.",
+        "responsiveBehavior": "Becomes standard full-width horizontal buttons on narrow responsive viewports.",
+        "edgeCases": "Disabled with low stock alerts if remaining units equal zero."
+      }
+    ]
+  },
+  {
+    "id": "cancel",
+    "title": "Order Cancellation",
+    "description": "Post-purchase request form for pending/processing order cancellations. Collects feedback and reviews refund calculations inside comprehensive billing cards.",
+    "metadata": {
+      "scope": "Order Lifecycle Cancellation Form",
+      "complexity": "Medium",
+      "security": "Authenticated purchase token verification, secure financial credits",
+      "version": "v1.6",
+      "lastUpdated": "May 2026",
+      "designer": "Logistics Lifecycle Lead"
+    },
+    "sections": [
+      {
+        "id": "SEC 1",
+        "name": "Unique Order Identification Summary",
+        "description": "Secondary header displaying cancel order numbers and execution dates."
+      },
+      {
+        "id": "SEC 2",
+        "name": "Survey Cancellation Radio list",
+        "description": "Radio questionnaire capturing standard cancel reasons (changed mind, delivery lag, cheaper options)."
+      },
+      {
+        "id": "SEC 3",
+        "name": "Additional Notes Text Area",
+        "description": "Form input panel recording open-ended user remarks."
+      },
+      {
+        "id": "SEC 4",
+        "name": "Order Line Summary sidebar",
+        "description": "Visual lists mapping order line items (watches, straps) with subtotals and actual calculated refund returns."
+      },
+      {
+        "id": "SEC 5",
+        "name": "Double Confirmation Action Buttons",
+        "description": "Two vertical CTA triggers confirming cancellation processing vs. pinning priority orders."
+      },
+      {
+        "id": "SEC 6",
+        "name": "Fulfillment Refund Timeline Warning",
+        "description": "Standard informative alert banner verifying credit timeline guarantees (3-5 business days)."
+      }
+    ],
+    "annotations": [
+      {
+        "id": 1,
+        "elementName": "reasons checkbox list",
+        "type": "Form Input",
+        "title": "Survey Selectable Options",
+        "description": "Checkbox layout permitting selection of cancellation motives.",
+        "interactionBehavior": "Checking option updates active layout structures, confirming customer reasoning.",
+        "uxRationale": "Gathering feedback during exit funnels is crucial for pinpointing logistics operational errors (e.g. shipping delay complaints).",
+        "businessLogic": "Feeds real-time cancellation statistics into business dashboards.",
+        "responsiveBehavior": "Vertically stacked to ensure robust touch targets.",
+        "edgeCases": "If user picks \"cheaper price elsewhere,\" a text input opens requesting URL references."
+      },
+      {
+        "id": 2,
+        "elementName": "ORDER CANCELLATION CONFIRMATION",
+        "type": "CTA",
+        "title": "Primary Destructive Cancel CTA",
+        "description": "Solid wide black interactive button triggering active cancellations.",
+        "interactionBehavior": "Tapping raises final confirm modal before dispatching order cancellation API calls.",
+        "uxRationale": "Strong styling emphasis clearly marks the final destructive transaction state.",
+        "businessLogic": "Halts shipping processing queues, cancels logistics dispatch, and starts bank payment refunds.",
+        "responsiveBehavior": "Moves to screen bottom positions on mobile displays.",
+        "edgeCases": "Button deactivates with a \"Shipping Locked\" warning if order has already departed warehouse hubs."
+      },
+      {
+        "id": 3,
+        "elementName": "PINNED ORDER",
+        "type": "CTA",
+        "title": "Secondary Dismissal/Cancel CTA",
+        "description": "White background outline button aligned underneath cancellation confirmation button.",
+        "interactionBehavior": "Acts as exit route, dismissing modal and returning user to standard safety dashboards.",
+        "uxRationale": "Provides a clear path to cancel the cancellation request, helping retain the order.",
+        "businessLogic": "Terminates cancellation state sequence, keeping original order status active.",
+        "responsiveBehavior": "Placed underneath primary actions in a vertical stack on mobile screens.",
+        "edgeCases": "Can navigate back directly to order detail sheets."
+      },
+      {
+        "id": 4,
+        "elementName": "Refund Summary Sidebar",
+        "type": "Pricing Block",
+        "title": "Refund Accounting Breakdown",
+        "description": "Sidebar showing refund totals matching original transaction volumes (SGD 535.00).",
+        "interactionBehavior": "Read-only.",
+        "uxRationale": "Reassures consumers that their full capital is returned with zero hidden deductions.",
+        "businessLogic": "Sums order subtotal, tax portions, and shipping values, mapping absolute totals back to financial modules.",
+        "responsiveBehavior": "Positions below inputs on mobile, keeping text size readable.",
+        "edgeCases": "If promotional vouchers were applied during purchases, adjusted values reflect in line lists."
+      }
+    ]
+  },
+  {
+    "id": "checkout",
+    "title": "Secure Checkout",
+    "description": "B2C Checkout Page. Collects shipping addresses, delivery method selections, and secure payment selections with standard sticky multi-item order summaries.",
+    "metadata": {
+      "scope": "Checkout Funnel Secure Financial Completion",
+      "complexity": "High",
+      "security": "Fully encrypted HTTPS gateway pipelines, Stripe/PCI standards",
+      "version": "v3.5",
+      "lastUpdated": "May 2026",
+      "designer": "Principal Security Architect"
+    },
+    "sections": [
+      {
+        "id": "SEC 1",
+        "name": "Shipping Address Block",
+        "description": "Displays recipient delivery credentials with inline edit/change actions."
+      },
+      {
+        "id": "SEC 2",
+        "name": "Delivery speed Selector Grid",
+        "description": "Radio card selector stack offering Standard delivery (free) vs. Click & Collect."
+      },
+      {
+        "id": "SEC 3",
+        "name": "Secure Payment Selector Options",
+        "description": "Grids mapping active payment choices (PayNow, Visa, Mastercard, Other) with icon visuals."
+      },
+      {
+        "id": "SEC 4",
+        "name": "Multi-Item Order Summary Sidebar",
+        "description": "Black panel showing thumbnail previews (+2 items indicator), subtotals, GST (9%), and total final payment."
+      },
+      {
+        "id": "SEC 5",
+        "name": "Complete Checkout CTA Transaction",
+        "description": "Primary \"Place Order\" button finalized in sidebar panel."
+      },
+      {
+        "id": "SEC 6",
+        "name": "Compliance & Safety Badging",
+        "description": "Icon array confirming SSL data protections and secure database protocols."
+      }
+    ],
+    "annotations": [
+      {
+        "id": 1,
+        "elementName": "Shipping Address Change Button",
+        "type": "CTA",
+        "title": "Address Override Selection Button",
+        "description": "Small text button \"Change\" positioned next to shipping details.",
+        "interactionBehavior": "Triggers pop-over modal or opens customer address book to select alternate delivery locations.",
+        "uxRationale": "Direct inline edit actions speed up corrections, preventing order routing mistakes.",
+        "businessLogic": "Updates recipient payload variables in checkout transaction tables.",
+        "responsiveBehavior": "Positioned beneath address details on mobile; remains top-right on desktop.",
+        "edgeCases": "Warns user if selected alternate address falls outside regional logistical coverage."
+      },
+      {
+        "id": 2,
+        "elementName": "Delivery Speed Radio Card - Standard",
+        "type": "Interactive Option",
+        "title": "Fulfillment Priority Selection - Card A",
+        "description": "Card highlighting standard delivery options (Free, 2-4 days) with trailing status indicator.",
+        "interactionBehavior": "Mutually exclusive with speed card B. Selecting sets checkout shipping variable to 0 SGD.",
+        "uxRationale": "Explicit delivery timelines lower support ticket volume regarding delivery status inquiries.",
+        "businessLogic": "Calculates courier costs depending on geographical zip codes.",
+        "responsiveBehavior": "Stretches as full-width vertical blocks on mobile devices.",
+        "edgeCases": "Availability can adjust based on national holiday periods."
+      },
+      {
+        "id": 3,
+        "elementName": "Delivery Speed Radio Card - Click & Collect",
+        "type": "Interactive Option",
+        "title": "Fulfillment Priority Selection - Card B",
+        "description": "Card selecting pickup points at local retail branches (SGD 12.00 surcharge).",
+        "interactionBehavior": "Toggles Card A off, prompting selection of nearest physical store pickup locations.",
+        "uxRationale": "Gives multi-modal flexibility to urban shoppers who pre-plan collection schedules.",
+        "businessLogic": "References offline storefront locations lists matching zip coordinates.",
+        "responsiveBehavior": "Stretches as full-width vertical blocks on mobile devices.",
+        "edgeCases": "Greyed out if select items exceed in-store weight constraints."
+      },
+      {
+        "id": 4,
+        "elementName": "Payment Method Buttons Grid",
+        "type": "Form Input",
+        "title": "Secure Gateway Grid Selector",
+        "description": "4-part button array framing discrete payment providers (PayNow, Visa, Mastercard, Other).",
+        "interactionBehavior": "Clicking switches active focus states. Triggers inline forms fields for card details or prompts secure QR codes.",
+        "uxRationale": "Clean grid interface reduces visual clutter during highly sensitive transaction stages.",
+        "businessLogic": "Routes transaction details to specialized payment portals (Stripe, Adyen, PayNow API).",
+        "responsiveBehavior": "Collapses to 2x2 grid columns on medium viewports to save screen space.",
+        "edgeCases": "Shows dedicated security warning if a selected method temporarily registers checkout timeout failures."
+      },
+      {
+        "id": 5,
+        "elementName": "Sticky Order Summary Carousel",
+        "type": "Card Element",
+        "title": "Order Preview Inline Drawer",
+        "description": "Compact visual row of items purchased with placeholder boxes and a \"+2\" additional items indicator.",
+        "interactionBehavior": "Hovering over \"+2\" displays simple popup listing remaining title items and active descriptions.",
+        "uxRationale": "Continuous visual confirmation of cart contents reassures users before payments are debited.",
+        "businessLogic": "Displays summarized snapshot of database checkout item arrays.",
+        "responsiveBehavior": "Becomes horizontal carousel row stacked above payment sections on small devices.",
+        "edgeCases": "Displays empty indicators if cart registers null data errors."
+      },
+      {
+        "id": 6,
+        "elementName": "PLACE ORDER button",
+        "type": "CTA",
+        "title": "Final Financial Capture Trigger",
+        "description": "Prominent white button placed inside dark checkout totals card.",
+        "interactionBehavior": "Tapping triggers backend banking authorizations, processing spinners, and moves user to confirmation screen.",
+        "uxRationale": "Highest visual emphasis signals the final payment step, avoiding double-tap errors.",
+        "businessLogic": "Initializes Stripe/Payment validation, debits accounts, locks warehouse stocks, and records orders database.",
+        "responsiveBehavior": "Locks dynamically to sticky screen bottoms on mobile viewports.",
+        "edgeCases": "Re-enters active state if credit authorization loops report insufficient balance failures."
+      }
+    ]
+  },
+  {
+    "id": "search",
+    "title": "Search Results",
+    "description": "Catalog listing search result screen. Employs left-aligned progressive filters, price sliders, sorting dropdowns, and robust item matrices with quick cart action indicators.",
+    "metadata": {
+      "scope": "Catalog Browse Discovery & Filtering",
+      "complexity": "High",
+      "security": "Protected API endpoints, database pagination caching",
+      "version": "v2.0",
+      "lastUpdated": "May 2026",
+      "designer": "Lead Catalog UX Architect"
+    },
+    "sections": [
+      {
+        "id": "SEC 1",
+        "name": "Search Query Header Banner",
+        "description": "Highlights user search terms and aggregates results counts (Showing 1-12 of 48 results)."
+      },
+      {
+        "id": "SEC 2",
+        "name": "Sorting Selector Widget",
+        "description": "Dropdown allowing catalog arrangements by relevancy, prices, or dates."
+      },
+      {
+        "id": "SEC 3",
+        "name": "Progressive filter Sidebar",
+        "description": "Left aligned filter panel comprising price limits, brand selectors, rating checkboxes, and category trees."
+      },
+      {
+        "id": "SEC 4",
+        "name": "Interactive Catalog Grid Matrix",
+        "description": "Multi-column presentation of search results cards incorporating hover states and quick checkouts."
+      },
+      {
+        "id": "SEC 5",
+        "name": "SEO Pagination Navigation Footer",
+        "description": "Numbered paging links facilitating catalog segment navigation."
+      }
+    ],
+    "annotations": [
+      {
+        "id": 1,
+        "elementName": "Sort Options Dropdown",
+        "type": "Navigation",
+        "title": "Sorting Selector trigger",
+        "description": "An expander dropdown matching Relevancy, Price High-Low, and Newest arrivals tags.",
+        "interactionBehavior": "Tapping displays selection menu overlay; choosing updates list arrangement sequentially.",
+        "uxRationale": "Saves user scrolling efforts by quickly prioritizing items based on price or relevance.",
+        "businessLogic": "Alters query sorting string variables on catalog API retrievals.",
+        "responsiveBehavior": "Moves to top-aligned full width filters bar on mobile displays.",
+        "edgeCases": "Defaults back to \"Relevancy\" if user criteria resets."
+      },
+      {
+        "id": 2,
+        "elementName": "Price Range Filters",
+        "type": "Form Input",
+        "title": "Numerical Price Range Range Limit Inputs",
+        "description": "Dual numeric text boxes with input values representing minimum and maximum price boundaries.",
+        "interactionBehavior": "Entering integers limits catalog displays to those matching requirements, auto updating results.",
+        "uxRationale": "Permits manual budgetary boundaries, increasing catalog search accuracy.",
+        "businessLogic": "Filters dataset query bounds instantly based on custom price attributes.",
+        "responsiveBehavior": "Stretches as columns beside standard side filters overlays.",
+        "edgeCases": "Min inputs exceeding max inputs throw a user helper warning, resetting boundary states."
+      },
+      {
+        "id": 3,
+        "elementName": "Search Category Tree Checkboxes",
+        "type": "Form Input",
+        "title": "Multi-Select Facet checkboxes",
+        "description": "Custom check list wrapping major brands (TechPro SG, Nexus) and categories.",
+        "interactionBehavior": "Tapping checkboxes updates active search results matrix in real time.",
+        "uxRationale": "Progressive disclosure facets are ideal for helping shoppers find items in dense categories.",
+        "businessLogic": "Runs filter arrays concurrently inside search query requests.",
+        "responsiveBehavior": "Hidden inside expandable drawer sheet named \"Filter & Sort\" on mobile screens.",
+        "edgeCases": "Zero items matching category combinations disable corresponding checkbox elements."
+      },
+      {
+        "id": 4,
+        "elementName": "Quick Cart action buttons",
+        "type": "CTA",
+        "title": "Add to Cart Quick Grid trigger",
+        "description": "Small circular utility bag icon overlays on grid cells.",
+        "interactionBehavior": "Adds chosen item to transaction cart without page redirects, showing successful addition check states.",
+        "uxRationale": "Allows fast multi-item shopping from listing pages, streamlining bulk shopping sessions.",
+        "businessLogic": "Adds unit to customer shopping carts; updates system header metrics.",
+        "responsiveBehavior": "Converts to wide full text buttons positioned under details text elements on mobile cards.",
+        "edgeCases": "Transitions tooltips saying \"Sold Out\" if stock numbers fall below bounds."
+      },
+      {
+        "id": 5,
+        "elementName": "Pagination Footers",
+        "type": "Navigation",
+        "title": "Sequential Product Pagination Controls",
+        "description": "Sequence numbers `< 1 2 3 ... 12 >` marking footer structures.",
+        "interactionBehavior": "Clicking loads subsequent page segments, updating window focus scroll states.",
+        "uxRationale": "Logical item structures help users track their catalog browsing depth without infinity scroll fatigue.",
+        "businessLogic": "Drives OFFSET value calculations inside SQL queries.",
+        "responsiveBehavior": "Hides intermediate pages, retaining only next/prev arrows and active pages on mobile.",
+        "edgeCases": "Deactivates back arrows automatically if active catalog pointer is at Page 1."
+      }
+    ]
+  },
+  {
+    "id": "thankyou",
+    "title": "Thank You for Your Order",
+    "description": "Post-purchase confirmation screen. Reassures users with confirmation ticks, visual logs timelines, tracking actions, and items summary reports.",
+    "metadata": {
+      "scope": "Post-Checkout Transaction Confirmation & Delivery Onboarding",
+      "complexity": "Medium",
+      "security": "Secured purchase validation token, encrypted shipment tracking triggers",
+      "version": "v1.5",
+      "lastUpdated": "May 2026",
+      "designer": "Lead Checkout Architect"
+    },
+    "sections": [
+      {
+        "id": "SEC 1",
+        "name": "Transaction Confirmation Card",
+        "description": "Central card highlighting payment success alongside assigned order ID markers."
+      },
+      {
+        "id": "SEC 2",
+        "name": "Fulfillment Order Status Timeline",
+        "description": "Right column tracking live order states (Processing, Shipped, Delivered) with timestamps."
+      },
+      {
+        "id": "SEC 3",
+        "name": "Action Quick Triggers Block",
+        "description": "Side-by-side action buttons: Black solid Track Shipment button, Outline View Invoice button."
+      },
+      {
+        "id": "SEC 4",
+        "name": "Delivery Location Details",
+        "description": "Shows recipient name, delivery addresses, and mobile numbers for validation."
+      },
+      {
+        "id": "SEC 5",
+        "name": "Multi-Item Bill List Summary",
+        "description": "Final order line receipt summary showing purchased items (chair, desk lamps) and total paid values."
+      },
+      {
+        "id": "SEC 6",
+        "name": "Fulfillment Assistance Ticker",
+        "description": "Bottom help banner presenting immediate Customer Service links (Chat Now, Help Center)."
+      }
+    ],
+    "annotations": [
+      {
+        "id": 1,
+        "elementName": "Track Shipment Button",
+        "type": "CTA",
+        "title": "Logistics Tracking CTA Trigger",
+        "description": "Solid high-contrast black button with a utility truck icon.",
+        "interactionBehavior": "Navigates route to real-time maps panel tracking dispatch trucks, or redirects search queries directly to 3rd party carriers.",
+        "uxRationale": "Immediate tracking transparency lowers support inquiries regarding order status.",
+        "businessLogic": "Generates active carrier query links based on assigned logistic tracker tokens.",
+        "responsiveBehavior": "Full screen wide mobile alignment.",
+        "edgeCases": "If logistics tracking number is unassigned, button displays processing notes (\"Tracking active soon\")."
+      },
+      {
+        "id": 2,
+        "elementName": "View Invoice Button",
+        "type": "CTA",
+        "title": "Billing Receipt PDF Downloader",
+        "description": "White background outline button aligned beside Track Shipment button.",
+        "interactionBehavior": "Launches print dialogues or triggers background downloads of verified order PDF records.",
+        "uxRationale": "Crucial document for users maintaining expense reports or seeking reimbursement.",
+        "businessLogic": "Compiles invoice PDF records directly from server databases.",
+        "responsiveBehavior": "Stacked below tracking buttons on mobile interfaces.",
+        "edgeCases": "Redirects queries to web invoice sheets if device PDF views are blocked."
+      },
+      {
+        "id": 3,
+        "elementName": "Live Order Status Timeline",
+        "type": "Trust Element",
+        "title": "Progressive Order Fulfillment Tracker",
+        "description": "Dotted vertical visual timeline tracking sequential warehouse statuses (Processing -> Shipped -> Delivered).",
+        "interactionBehavior": "Hovering points on specific nodes shows corresponding status update details.",
+        "uxRationale": "Visual confirmation of progress fosters reliability and sets clear expectations during delivery waits.",
+        "businessLogic": "Queries ERP status tables dynamically to display accurate timestamps.",
+        "responsiveBehavior": "Converts to collapsible horizontal chevron flow indicator on tiny viewports.",
+        "edgeCases": "Delays or exceptions in processing display clear red alert updates with ETA extensions."
+      },
+      {
+        "id": 4,
+        "elementName": "Fulfillment Customer Service Chat Now Link",
+        "type": "CTA",
+        "title": "Direct Help Chat trigger",
+        "description": "Styled link reading \"Chat Now\" aligned directly within bottom assistance banner.",
+        "interactionBehavior": "Launches interactive live chat support modals/drawers connecting to human agents.",
+        "uxRationale": "Lowers escalation barriers for worried customers, resolving complaints pre-delivery.",
+        "businessLogic": "Passes order ID #SG-99284-2026 instantly into chat queues of customer support agents.",
+        "responsiveBehavior": "Centered underneath alert summaries on small mobile layouts.",
+        "edgeCases": "During off-hours, redirects users to AI automated support triage bots. (Standard 24/7 coverage)."
+      }
+    ]
+  }
+];
+        
+        let activeScreenId = SCREENS[0].id;
+        let activeBreakpoint = 'desktop';
+        let activePinId = null;
+
+        function init() {
+            renderActiveScreen();
+        }
+
+        function switchScreen(id) {
+            activeScreenId = id;
+            activePinId = null;
+            renderActiveScreen();
+        }
+
+        function switchBreakpoint(bp) {
+            activeBreakpoint = bp;
+            
+            // Toggle active classes on button
+            document.querySelectorAll('.viewport-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById('btn-' + bp).classList.add('active');
+
+            // Apply sizing class to container
+            const mockup = document.getElementById('mockup');
+            mockup.className = 'mockup-container ' + bp;
+        }
+
+        function selectPin(id) {
+            activePinId = id;
+            
+            // Highlight pins
+            document.querySelectorAll('.spec-pin').forEach(p => {
+                p.classList.remove('active');
+                if (p.id === 'pin-el-' + id) p.classList.add('active');
+            });
+
+            // Highlight cards
+            document.querySelectorAll('.callout-card').forEach(c => {
+                c.classList.remove('active');
+                if (c.id === 'card-an-' + id) {
+                    c.classList.add('active');
+                    c.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+            });
+        }
+
+        function renderActiveScreen() {
+            const screen = SCREENS.find(s => s.id === activeScreenId);
+            if (!screen) return;
+
+            // Render Meta
+            const metaContainer = document.getElementById('screen-meta');
+            metaContainer.innerHTML = `
+                <div class="screen-meta-row">
+                    <span class="screen-meta-label">Scope:</span>
+                    <span class="screen-meta-val">${screen.metadata.scope}</span>
+                </div>
+                <div class="screen-meta-row">
+                    <span class="screen-meta-label">Complexity:</span>
+                    <span class="screen-meta-val">${screen.metadata.complexity}</span>
+                </div>
+                <div class="screen-meta-row">
+                    <span class="screen-meta-label">Security:</span>
+                    <span class="screen-meta-val">${screen.metadata.security}</span>
+                </div>
+                <div class="screen-meta-row">
+                    <span class="screen-meta-label">Version Ref:</span>
+                    <span class="screen-meta-val">${screen.metadata.version}</span>
+                </div>
+            `;
+
+            // Render TOC
+            const tocContainer = document.getElementById('section-toc');
+            tocContainer.innerHTML = screen.sections.map(sec => `
+                <div class="toc-item">
+                    <span class="toc-badge">${sec.id}</span>
+                    <span>${sec.name}</span>
+                </div>
+            `).join('');
+
+            // Render Skeletons Wireframe blocks in center panel
+            const contentContainer = document.getElementById('mockup-content');
+            contentContainer.innerHTML = generateSkeletonMarkup(screen.id);
+
+            // Render Pins Overlays
+            const pinsLayer = document.getElementById('pins-layer');
+            pinsLayer.innerHTML = screen.annotations.map(pin => `
+                <div 
+                    id="pin-el-${pin.id}"
+                    class="spec-pin ${activePinId === pin.id ? 'active' : ''}" 
+                    style="left: ${pin.x}%; top: ${pin.y}%;"
+                    onclick="selectPin(${pin.id})"
+                >
+                    ${pin.id}
+                </div>
+            `).join('');
+
+            // Render Ledger
+            const ledgerContainer = document.getElementById('annotations-ledger');
+            ledgerContainer.innerHTML = `
+                <h3 class="spec-section-title">UX SPEC CALLOUTS ledgers</h3>
+                ${screen.annotations.map(pin => `
+                    <div 
+                        id="card-an-${pin.id}" 
+                        class="callout-card ${activePinId === pin.id ? 'active' : ''}"
+                        onclick="selectPin(${pin.id})"
+                    >
+                        <div class="callout-header">
+                            <span class="pin-badge">${pin.id}</span>
+                            <span class="callout-title">${pin.elementName}</span>
+                            <span class="callout-type">${pin.type}</span>
+                        </div>
+                        <p class="callout-desc">${pin.description}</p>
+                        
+                        <div class="callout-detail-grid">
+                            <div class="callout-detail-block">
+                                <span class="callout-detail-label">Interaction Behavior</span>
+                                <span class="callout-detail-val">${pin.interactionBehavior}</span>
+                            </div>
+                            <div class="callout-detail-block">
+                                <span class="callout-detail-label">UX Rationale</span>
+                                <span class="callout-detail-val">${pin.uxRationale}</span>
+                            </div>
+                            <div class="callout-detail-block">
+                                <span class="callout-detail-label">Business Rules Logic</span>
+                                <span class="callout-detail-val">${pin.businessLogic}</span>
+                            </div>
+                            <div class="callout-detail-block">
+                                <span class="callout-detail-label">Responsive Stacking</span>
+                                <span class="callout-detail-val">${pin.responsiveBehavior}</span>
+                            </div>
+                        </div>
+                    </div>
+                `).join('')}
+            `;
+        }
+
+        // Lightweight skeletal wireframe builder based on active screen choice
+        function generateSkeletonMarkup(id) {
+            switch (id) {
+                case 'refund':
+                    return `
+                    <div style="display: flex; flex-direction: column; gap: 24px;">
+                        <div style="font-family: var(--font-sans);">
+                            <h2 style="font-weight: 800; font-size: 18px;">REFUND REQUEST BLOCK</h2>
+                            <p style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">RETAIL_SG Customer self-service panel</p>
+                        </div>
+                        
+                        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px;">
+                            <div style="display: flex; flex-direction: column; gap: 16px;">
+                                <div class="wf-placeholder" style="height: 120px;">
+                                    <svg class="wf-cross-svg"><line x1="0" y1="0" x2="100%" y2="100%"></line><line x1="100%" y1="0" x2="0" y2="100%"></line></svg>
+                                    SEC 1: ORIGINAL ORDER #SP-2026-9931 (SGD 189.00)
+                                </div>
+                                <div class="wf-placeholder" style="height: 140px;">
+                                    SEC 2: FORM REASON FOR RETURN (CHECKBOXES & TEXTAREA)
+                                </div>
+                                <div class="wf-placeholder" style="height: 100px;">
+                                    SEC 3: PROOF UPLOAD (MIN 2 SLOTS)
+                                </div>
+                                <div class="wf-placeholder" style="height: 110px;">
+                                    SEC 4: DESTINATION SELECTIONS (VISA / STORE BALANCE)
+                                </div>
+                                <div class="wf-placeholder" style="height: 80px; border-left: 3px solid #000;">
+                                    SEC 5: NINJAVAN DROP INSTRUCTION INFORMATION PANEL
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <div style="background-color: #000; color: #fff; padding: 18px; border-radius: 4px;">
+                                    <span style="font-size: 8px; font-family: var(--font-mono)">SUMMARY</span>
+                                    <h3 style="font-size: 20px; font-family: var(--font-mono); margin-top: 4px;">SGD 189.00</h3>
+                                    <div class="wf-btn-solid" style="background-color: #fff; color: #000; margin-top: 14px; cursor: pointer;">
+                                        SUBMIT REQUEST
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
+                
+                case 'product':
+                    return `
+                    <div style="display: flex; flex-direction: column; gap: 24px;">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+                            <div style="display: flex; flex-direction: column; gap: 12px;">
+                                <div class="wf-placeholder animate-pulse" style="height: 300px;">
+                                    SEC 1: PRODUCT HERO NOIR EDITION GALLERY
+                                    <svg class="wf-cross-svg"><line x1="0" y1="0" x2="100%" y2="100%"></line><line x1="100%" y1="0" x2="0" y2="100%"></line></svg>
+                                </div>
+                                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">
+                                    <div class="wf-placeholder" style="height: 50px;">T1</div>
+                                    <div class="wf-placeholder" style="height: 50px;">T2</div>
+                                    <div class="wf-placeholder" style="height: 50px;">T3</div>
+                                    <div class="wf-placeholder" style="height: 50px;">T4</div>
+                                </div>
+                            </div>
+                            
+                            <div style="display: flex; flex-direction: column; gap: 16px;">
+                                <div>
+                                    <span style="font-family: var(--font-mono); font-size: 10px; color: var(--text-muted)">ELECTRONICS</span>
+                                    <h1 style="font-size: 20px; font-weight: 800;">AERO-X Pro Wireless</h1>
+                                    <p style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Premium high fidelity over-ear headphones.</p>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; align-items: baseline;">
+                                    <span style="font-family: var(--font-mono); font-size: 18px; font-weight: bold;">SGD 499.00</span>
+                                    <span style="font-size: 8px; font-family: var(--font-mono); color: green; background-color: #f0fdf4; padding: 2px 6px; border-radius: 2px;">IN STOCK</span>
+                                </div>
+                                <div style="display: flex; flex-direction: column; gap: 8px;">
+                                    <div class="wf-btn-solid">BUY NOW</div>
+                                    <div class="wf-btn-outline">ADD TO CART</div>
+                                </div>
+                                <div class="wf-placeholder" style="height: 60px;">
+                                    SEC 4: TIMELINE EXPRESS SHIPPING TICKER &bull; ACTIVE COUNTDOWN
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; border-top: 1px solid var(--border-primary); padding-top: 24px;">
+                            <div>
+                                <h4 style="font-family: var(--font-mono); font-size: 11px; margin-bottom: 8px;">SEC 5: TECHNICAL MATRIX CHARTS</h4>
+                                <div class="wf-placeholder" style="height: 120px;">SPEC ROWS (DRIVER, BLUETOOTH, CODEC)</div>
+                            </div>
+                            <div>
+                                <h4 style="font-family: var(--font-mono); font-size: 11px; margin-bottom: 8px;">SEC 6: SOCIAL VERIFIED CUSTOMER REVIEWS</h4>
+                                <div class="wf-placeholder" style="height: 120px;">REVIEWS COLUMNS MATRIX (MARCUS T. / SARAH L.)</div>
+                            </div>
+                        </div>
+                    </div>`;
+
+                default:
+                    return `
+                    <div style="display: flex; flex-direction: column; gap: 24px;">
+                        <h2 style="font-weight: 800; font-size: 18px; text-transform: uppercase;">${id.toUpperCase()} WIREFRAME LAYOUT MOCKUP</h2>
+                        <p style="font-size: 11px; color: var(--text-muted); leading-relaxed">
+                            Visual layout representing SEC 1, SEC 2, SEC 3 layout structures. Fully responsive configuration for desktops, tablets, and phones formats under design system constraints.
+                        </p>
+                        <div class="wf-placeholder" style="height: 380px; width: 100%;">
+                            <svg class="wf-cross-svg"><line x1="0" y1="0" x2="100%" y2="100%"></line><line x1="100%" y1="0" x2="0" y2="100%"></line></svg>
+                            MONOCHROME GRID LAYOUT MOCKUP BUILDER
+                        </div>
+                    </div>`;
+            }
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>
