@@ -26,6 +26,13 @@ $mgk_inc = array(
 	'inc/mgk-checkout-render.php',
 	'inc/mgk-thankyou-render.php',
 	'inc/mgk-paynow.php',
+	'inc/mgk-refund-render.php',
+	'inc/mgk-rate-render.php',
+	'inc/mgk-cancel-render.php',
+	'inc/mgk-store-render.php',
+	'inc/mgk-wishlist-render.php',
+	'inc/mgk-profile-render.php',
+	'inc/mgk-auth-render.php',
 
 	// 3. Section config + widget engine + generator
 	'inc/mgk-sections.php',
