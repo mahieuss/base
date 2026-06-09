@@ -1,0 +1,107 @@
+/* ==========================================================================
+   MGK Retail — Design Tokens (matches UIandpromt wireframe spec exactly)
+   Inter + JetBrains Mono · zinc palette · #E11D48 accent · tiny radii · grey bg
+   ========================================================================== */
+:root {
+  /* Brand */
+  --mgk-ink: #18181B;          /* zinc-900 — headings, dark blocks */
+  --mgk-ink-900: #09090B;      /* zinc-950 — ribbon, deepest */
+  --mgk-accent: #E11D48;       /* rose-600 — the one accent */
+  --mgk-accent-soft: #FFF1F2;  /* rose-50 */
+  --mgk-success: #059669;      /* emerald-600 in-stock */
+  --mgk-warning: #D97706;      /* amber-600 low-stock */
+
+  /* Zinc scale */
+  --mgk-50: #FAFAFA;
+  --mgk-100: #F4F4F5;
+  --mgk-200: #E4E4E7;
+  --mgk-300: #D4D4D8;
+  --mgk-400: #A1A1AA;
+  --mgk-500: #71717A;
+  --mgk-600: #52525B;
+  --mgk-700: #3F3F46;
+  --mgk-800: #27272A;
+  --mgk-900: #18181B;
+
+  /* Surfaces */
+  --mgk-bg: #F4F4F5;           /* page background is GREY, not white */
+  --mgk-surface: #ffffff;
+  --mgk-line: #E4E4E7;
+  --mgk-fg: #18181B;
+  --mgk-fg-muted: #71717A;
+
+  /* Typography */
+  --mgk-font: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --mgk-font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  /* High-density, blocky radii (spec: max ~4px) */
+  --mgk-radius-xs: 1px;
+  --mgk-radius-sm: 2px;
+  --mgk-radius: 4px;
+  --mgk-radius-lg: 6px;
+  --mgk-radius-pill: 9999px;
+
+  /* Back-compat aliases used by mgk-woo.css */
+  --mgk-ink-soft: #3F3F46;
+  --mgk-bg-soft: #FAFAFA;
+  --mgk-bg-muted: #F4F4F5;
+  --mgk-danger: #E11D48;
+  --mgk-h2: clamp(1.1rem, 2vw, 1.4rem);
+  --mgk-h3: 1.05rem;
+  --mgk-section-y: 32px;
+
+  --mgk-gap: 16px;
+  --mgk-container: 1180px;
+  --mgk-shadow-xs: 0 1px 2px rgba(9,9,11,.05);
+  --mgk-shadow-sm: 0 1px 2px rgba(9,9,11,.06), 0 1px 3px rgba(9,9,11,.08);
+  --mgk-shadow: 0 8px 24px rgba(9,9,11,.10);
+}
+
+body { font-family: var(--mgk-font); background: var(--mgk-bg); color: var(--mgk-fg); }
+img { max-width: 100%; height: auto; }
+
+.mgk-container { max-width: var(--mgk-container); margin-inline: auto; padding-inline: 20px; }
+.mgk-section { padding-block: 24px; }
+
+/* Mono section labels with ● bullet (the spec's signature) */
+.mgk-label { font-family: var(--mgk-font-mono); font-size: 10px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--mgk-400); display: inline-flex; align-items: center; gap: 6px; }
+.mgk-label--accent { color: var(--mgk-accent); }
+.mgk-label::before { content: "\25CF"; font-size: 8px; }
+.mgk-label--bare::before { content: none; }
+
+.mgk-eyebrow { font-family: var(--mgk-font-mono); font-size: 9px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--mgk-accent); }
+
+/* Headings */
+.mgk-h1 { font-weight: 900; font-size: clamp(1.4rem, 3vw, 1.9rem); line-height: 1.05; letter-spacing: -.02em; text-transform: uppercase; color: var(--mgk-ink); margin: 0; }
+.mgk-h2 { font-weight: 900; font-size: clamp(1.1rem, 2vw, 1.4rem); letter-spacing: -.01em; color: var(--mgk-ink); margin: 0; }
+
+/* Buttons — small, blocky, mono uppercase */
+.mgk-btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; font-family: var(--mgk-font-mono); font-weight: 800; font-size: 10.5px; letter-spacing: .06em; text-transform: uppercase; line-height: 1; cursor: pointer; border: 1px solid transparent; border-radius: var(--mgk-radius); padding: 10px 16px; text-decoration: none; transition: background .15s ease, color .15s ease, border-color .15s ease; }
+.mgk-btn:focus-visible { outline: 2px solid var(--mgk-accent); outline-offset: 2px; }
+.mgk-btn--dark { background: var(--mgk-ink); color: #fff; }
+.mgk-btn--dark:hover { background: var(--mgk-accent); color: #fff; }
+.mgk-btn--light { background: #fff; color: var(--mgk-ink); }
+.mgk-btn--light:hover { background: var(--mgk-100); }
+.mgk-btn--ghost { background: #fff; color: var(--mgk-700); border-color: var(--mgk-200); }
+.mgk-btn--ghost:hover { border-color: var(--mgk-400); }
+.mgk-btn--accent { background: var(--mgk-accent); color: #fff; }
+.mgk-btn--block { width: 100%; }
+
+/* Stock tags (emerald / amber / zinc) */
+.mgk-stock { display: inline-flex; align-items: center; gap: 5px; font-family: var(--mgk-font); font-size: 9px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; padding: 2px 8px; border-radius: var(--mgk-radius-sm); border: 1px solid; }
+.mgk-stock i { width: 5px; height: 5px; border-radius: 50%; display: inline-block; }
+.mgk-stock--in { color: #047857; background: #ECFDF5; border-color: #A7F3D0; }
+.mgk-stock--in i { background: #10B981; }
+.mgk-stock--low { color: #B45309; background: #FFFBEB; border-color: #FDE68A; }
+.mgk-stock--low i { background: #F59E0B; }
+.mgk-stock--out { color: var(--mgk-500); background: var(--mgk-100); border-color: var(--mgk-200); }
+.mgk-stock--out i { background: var(--mgk-400); }
+
+/* Price (mono) */
+.mgk-price { font-family: var(--mgk-font-mono); font-weight: 800; color: var(--mgk-900); }
+.mgk-price ins { text-decoration: none; color: var(--mgk-accent); }
+.mgk-price del { color: var(--mgk-400); font-weight: 500; margin-right: 4px; }
+
+/* Stars */
+.mgk-stars { display: inline-flex; gap: 1px; color: #F59E0B; font-size: 12px; }
+.mgk-stars .mgk-star-empty { color: var(--mgk-300); }

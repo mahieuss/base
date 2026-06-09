@@ -1,0 +1,17 @@
+{
+  "name": "mgk-retail-elementor",
+  "category": "retail",
+  "version": "0.1.0",
+  "parent": "hello-elementor",
+  "required_plugins": ["woocommerce", "elementor"],
+  "locale": "en_SG",
+  "currency": "SGD",
+  "tax": { "name": "GST", "rate": 9.0 },
+  "seed_files": [
+    "seed/seed-layouts.php"
+  ],
+  "demo_command": "wp mgk-demo --force",
+  "layout_command": "wp mgk seed",
+  "screens_built": ["home", "search", "product", "cart", "checkout", "thankyou"],
+  "screens_pending": ["refund", "rate", "cancel", "store", "wishlist", "profile", "auth"]
+}

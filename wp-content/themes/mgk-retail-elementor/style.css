@@ -1,0 +1,13 @@
+/*
+Theme Name: MGK Retail Elementor
+Theme URI: https://margick.com/templates/retail
+Description: RETAIL_SG master template — Hello Elementor child. PHP-native locked shell + Elementor editable shell. WooCommerce Singapore (SGD, GST 9%, PayNow). Built from the MGK Template Factory architecture.
+Author: Margick
+Author URI: https://margick.com
+Template: hello-elementor
+Version: 0.1.0
+Text Domain: mgk-retail
+Tags: woocommerce, ecommerce, elementor
+*/
+
+/* All real styling lives in assets/css/* (enqueued via inc/mgk-tokens.php). */

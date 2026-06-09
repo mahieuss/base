@@ -40,6 +40,26 @@ services:
     networks:
       - wordpress_net
 
+  # WP-CLI tien ich (khong tu chay). Dung: docker compose run --rm wpcli wp <args>
+  wpcli:
+    image: wordpress:cli
+    container_name: wordpress_cli
+    profiles: ["cli"]
+    depends_on:
+      db:
+        condition: service_healthy
+    user: "33:33"
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_NAME: ${MYSQL_DATABASE}
+      WORDPRESS_DB_USER: ${MYSQL_USER}
+      WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - wp_data:/var/www/html
+      - ./wp-content:/var/www/html/wp-content
+    networks:
+      - wordpress_net
+
 volumes:
   db_data:
   wp_data:
